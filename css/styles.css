@@ -69,3 +69,13 @@ ul {
 .countdown-title {
   color: brown;
 }
+
+.linkedin-link{
+  display: inline-block;
+}
+
+.linkedin-link img{
+  width: 64px;
+  height: 64px;
+  display: block;
+}
