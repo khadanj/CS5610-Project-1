@@ -41,8 +41,11 @@
       <section class="writing card">
         <h2>Writing Practice</h2>
         <p>Use your mouse to practice writing the selected Zhuyin symbol.</p>
-        <canvas id="board" width="400" height="300"></canvas>
-        <br />
+        <div class="canvas-wrapper">
+          <canvas id="bg-board" width="400" height="300"></canvas>
+          <canvas id="board" width="400" height="300"></canvas>
+        </div>
+        <br>
         <button id="clear">Clear Board</button>
       </section>
     </main>
