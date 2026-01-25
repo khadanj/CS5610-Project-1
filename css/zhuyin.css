@@ -57,11 +57,6 @@ html {
   font-weight: bolder;
 }
 
-/* fix for ul global */
-.nav-links {
-  list-style-type: none;
-}
-
 /* card style */
 .card {
   display: flex;
@@ -86,7 +81,7 @@ html {
   padding: 20px;
   width: 80%;
   margin: 20px auto;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
   display: grid;
   grid-template-columns: 1fr;
@@ -94,19 +89,19 @@ html {
 }
 
 .symbol-box {
-  font-size: 80px;   
-  font-weight: bold; 
+  font-size: 80px;
+  font-weight: bold;
   margin-top: 10px;
 }
 
 header h1 {
-  font-size: 60px;   
+  font-size: 60px;
   font-weight: bold;
 }
 
 header .intro {
-  font-size: 28px;   
-  line-height: 1.6;  
+  font-size: 28px;
+  line-height: 1.6;
 }
 
 .canvas-wrapper {
@@ -115,10 +110,9 @@ header .intro {
   height: 300px;
 }
 
-#bg-board,
-#board {
+.bg-board,
+.board {
   position: absolute;
   top: 0;
   left: 0;
 }
-

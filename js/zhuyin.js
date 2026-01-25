@@ -1,16 +1,54 @@
-const bgCanvas = document.getElementById("bg-board");
-const bgCtx = bgCanvas.getContext("2d");
+const symbols = [
+  'ㄅ',
+  'ㄆ',
+  'ㄇ',
+  'ㄈ',
+  'ㄉ',
+  'ㄊ',
+  'ㄋ',
+  'ㄌ',
+  'ㄍ',
+  'ㄎ',
+  'ㄏ',
+  'ㄐ',
+  'ㄑ',
+  'ㄒ',
+  'ㄓ',
+  'ㄔ',
+  'ㄕ',
+  'ㄖ',
+  'ㄗ',
+  'ㄘ',
+  'ㄙ',
+  'ㄚ',
+  'ㄛ',
+  'ㄜ',
+  'ㄝ',
+  'ㄞ',
+  'ㄟ',
+  'ㄠ',
+  'ㄡ',
+  'ㄢ',
+  'ㄣ',
+  'ㄤ',
+  'ㄥ',
+  'ㄦ',
+  'ㄧ',
+  'ㄨ',
+  'ㄩ',
+];
 
-const canvas = document.getElementById("board");
-const ctx = canvas.getContext("2d");
-const clearBtn = document.getElementById("clear");
+const box = document.querySelector('.symbol-box');
+const btn = document.querySelector('.next-btn');
 
-const symbols = ["ㄅ","ㄆ","ㄇ","ㄈ","ㄉ","ㄊ","ㄋ","ㄌ","ㄍ","ㄎ","ㄏ","ㄐ","ㄑ","ㄒ","ㄓ","ㄔ","ㄕ","ㄖ","ㄗ","ㄘ","ㄙ","ㄚ","ㄛ","ㄜ","ㄝ","ㄞ","ㄟ","ㄠ","ㄡ","ㄢ","ㄣ","ㄤ","ㄥ","ㄦ","ㄧ","ㄨ","ㄩ"];
+const canvas = document.querySelector('.board');
+const bgCanvas = document.querySelector('.bg-board');
+const clearBtn = document.querySelector('.clear-btn');
 
-const box = document.getElementById("symbol-box");
-const btn = document.getElementById("next-btn");
+const ctx = canvas.getContext('2d');
+const bgCtx = bgCanvas.getContext('2d');
 
-let currentSymbol = "";
+let currentSymbol = '';
 
 function showRandomSymbol() {
   const randomIndex = Math.floor(Math.random() * symbols.length);
@@ -19,29 +57,28 @@ function showRandomSymbol() {
 
   // make the symbol canvas in the background
   bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-  bgCtx.font = "250px sans-serif";
-  bgCtx.fillStyle = "rgba(0,0,0,0.2)"; 
-  bgCtx.textAlign = "center";
-  bgCtx.textBaseline = "middle";
+  bgCtx.font = '250px sans-serif';
+  bgCtx.fillStyle = 'rgba(0,0,0,0.2)';
+  bgCtx.textAlign = 'center';
+  bgCtx.textBaseline = 'middle';
   bgCtx.fillText(currentSymbol, bgCanvas.width / 2, bgCanvas.height / 2);
 }
 
-btn.addEventListener("click", showRandomSymbol);
+btn.addEventListener('click', showRandomSymbol);
 showRandomSymbol();
 
-
-ctx.strokeStyle = "#000";
+ctx.strokeStyle = '#000';
 ctx.lineWidth = 4;
-ctx.lineCap = "round";
+ctx.lineCap = 'round';
 
 let drawing = false;
 
-canvas.addEventListener("mousedown", () => {
+canvas.addEventListener('mousedown', () => {
   drawing = true;
   ctx.beginPath();
 });
 
-canvas.addEventListener("mousemove", (e) => {
+canvas.addEventListener('mousemove', (e) => {
   if (!drawing) return;
   const rect = canvas.getBoundingClientRect();
   const x = e.clientX - rect.left;
@@ -50,17 +87,14 @@ canvas.addEventListener("mousemove", (e) => {
   ctx.stroke();
 });
 
-canvas.addEventListener("mouseup", () => {
+canvas.addEventListener('mouseup', () => {
   drawing = false;
 });
 
-canvas.addEventListener("mouseleave", () => {
+canvas.addEventListener('mouseleave', () => {
   drawing = false;
 });
 
-
-clearBtn.addEventListener("click", () => {
+clearBtn.addEventListener('click', () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
-
-

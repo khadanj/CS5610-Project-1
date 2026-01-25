@@ -23,12 +23,13 @@
     - As a beginner Mandarin learner, I want to practice Zhuyin symbols interactively, so that I can become more familiar with their forms and usage.
 
 ## Design mockups
+
 ![Mockup of homepage](images/mockup.png)
 
 ## Creative Addition
 
     - The homepage includes a countdown timer feature.
-    - It counts down to a future event (e.g., graduation, project deadline, etc.).
+    - It counts down to a future event (spring break).
     - It updates every second using JavaScript.
     - It helps show dynamic content and demonstrates interactive web design.
     - This feature is original and makes the homepage more engaging.
