@@ -33,3 +33,6 @@ ChatGPT assisted in writing and improving the JavaScript and CSS for the Zhuyin 
 2. “How can I make the drawing canvas work on tablet and mobile touch devices?”
 3. “How can I keep the same Zhuyin symbol when I clear the canvas?”
 4. “How can I display a larger transparent Zhuyin symbol in the background of the canvas?”
+
+## License
+This project is licensed under the MIT License.
