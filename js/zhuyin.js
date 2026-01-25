@@ -17,10 +17,10 @@ function showRandomSymbol() {
   currentSymbol = symbols[randomIndex];
   box.textContent = currentSymbol;
 
-  // 在背景 canvas 顯示透明字
+  // make the symbol canvas in the background
   bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-  bgCtx.font = "80px sans-serif";
-  bgCtx.fillStyle = "rgba(0,0,0,0.2)"; // 透明字
+  bgCtx.font = "250px sans-serif";
+  bgCtx.fillStyle = "rgba(0,0,0,0.2)"; 
   bgCtx.textAlign = "center";
   bgCtx.textBaseline = "middle";
   bgCtx.fillText(currentSymbol, bgCanvas.width / 2, bgCanvas.height / 2);
@@ -29,7 +29,7 @@ function showRandomSymbol() {
 btn.addEventListener("click", showRandomSymbol);
 showRandomSymbol();
 
-// 前景 canvas 畫線
+
 ctx.strokeStyle = "#000";
 ctx.lineWidth = 4;
 ctx.lineCap = "round";
@@ -58,7 +58,7 @@ canvas.addEventListener("mouseleave", () => {
   drawing = false;
 });
 
-// Clear 只清前景 canvas
+
 clearBtn.addEventListener("click", () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
