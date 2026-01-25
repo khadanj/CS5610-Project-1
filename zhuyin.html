@@ -1,57 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Let's learn ㄅㄆㄇㄈ！</title>
-  <link rel="stylesheet" href="./css/styles.css">
-  <link rel="stylesheet" href="./css/zhuyin.css">
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Yi-Peng Chiang">
+    <meta
+      name="description"
+      content="Personal homepage showcasing experience and skills."
+    >
+    <title>Let's learn ㄅㄆㄇㄈ！</title>
+    <link rel="icon" href="./images/image.png">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/zhuyin.css">
+  </head>
 
-<body>
-  <nav class="custom-navbar">
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="zhuyin.html">More</a></li>
-    </ul>
-  </nav>
+  <body>
+    <nav class="custom-navbar">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="zhuyin.html">More</a></li>
+      </ul>
+    </nav>
 
-  <div class="page-content">
+    <div class="page-content">
+      <header>
+        <h1>Let's learn ㄅㄆㄇㄈ！</h1>
+        <p class="intro">
+          Zhuyin (ㄅㄆㄇㄈ) is a phonetic system used for Mandarin Chinese.<br>
+          This page simulates a learning experience <br>
+          where users can explore Zhuyin symbols <br>
+          and practice writing them digitally.
+        </p>
+      </header>
 
-    <header>
-      <h1>Let's learn ㄅㄆㄇㄈ！</h1>
-      <p class="intro">
-        Zhuyin (ㄅㄆㄇㄈ) is a phonetic system used for Mandarin Chinese.<br>
-        This page simulates a learning experience <br>
-        where users can explore Zhuyin symbols <br>
-        and practice writing them digitally.
-      </p>
-    </header>
+      <main>
+        <section class="symbols card">
+          <h2>Learn Zhuyin Symbols</h2>
+          <div id="symbol-buttons"></div>
 
-    <main>
-      <section class="symbols card">
-        <h2>Learn Zhuyin Symbols</h2>
-        <div id="symbol-buttons"></div>
+          <div id="symbol-box" class="symbol-box"></div>
+          <button id="next-btn">Show me another one</button>
+        </section>
 
-        <div id="symbol-box" class="symbol-box"></div>
-        <button id="next-btn">Show me another one</button>
-
-      </section>
-
-      <section class="writing card">
-        <h2>Writing Practice</h2>
-        <p>Use your mouse to practice writing the selected Zhuyin symbol.</p>
-        <div class="canvas-wrapper">
-          <canvas id="bg-board" width="400" height="300"></canvas>
-          <canvas id="board" width="400" height="300"></canvas>
-        </div>
-        <br>
-        <button id="clear">Clear Board</button>
-      </section>
-    </main>
-
-  </div>
-  <script type="module" src="./js/zhuyin.js"></script>
-</body>
+        <section class="writing card">
+          <h2>Writing Practice</h2>
+          <p>Use your mouse to practice writing the selected Zhuyin symbol.</p>
+          <div class="canvas-wrapper">
+            <canvas id="bg-board" width="400" height="300"></canvas>
+            <canvas id="board" width="400" height="300"></canvas>
+          </div>
+          <br>
+          <button id="clear">Clear Board</button>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="./js/zhuyin.js"></script>
+  </body>
 </html>
-
