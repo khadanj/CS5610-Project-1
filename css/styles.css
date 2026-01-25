@@ -1,0 +1,71 @@
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #f1dfbe;
+  align-items: center;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bolder;
+}
+
+.page-content h1 {
+  font-weight: bolder;
+  color: brown;
+}
+
+.page-content h2,
+.page-content h3,
+.page-content h4,
+.page-content h5 {
+  font-weight: bolder;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bolder;
+}
+
+.custom-navbar {
+  display: flex;
+  justify-content: center;
+  background-color: #655d51;
+  padding: 20px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.nav-links li a {
+  margin: 0 30px;
+  font-size: 30px;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fdf9f9;
+}
+
+.introduction {
+  font-size: 25px;
+}
+
+.countdown-title {
+  color: brown;
+}
