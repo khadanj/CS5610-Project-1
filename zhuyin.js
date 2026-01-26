@@ -18,18 +18,22 @@ const bgCtx = bgCanvas.getContext('2d');
 let currentSymbol = '';
 let drawing = false;
 
-/* ---------- set canvas size properly (for iPhone) ---------- */
+/* ---------- Resize canvas to match CSS size + DPR ---------- */
 function resizeCanvas() {
   const dpr = window.devicePixelRatio || 1;
 
-  const width = canvas.offsetWidth;
-  const height = canvas.offsetHeight;
+  // CSS size
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
 
+  // set real pixel size
   canvas.width = width * dpr;
   canvas.height = height * dpr;
+
   bgCanvas.width = width * dpr;
   bgCanvas.height = height * dpr;
 
+  // scale for high DPI
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   bgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
@@ -51,8 +55,8 @@ function showRandomSymbol() {
   const centerX = bgCanvas.width / 2;
   const centerY = bgCanvas.height / 2;
 
-  // scale font size according to canvas size
-  const fontSize = Math.min(bgCanvas.width, bgCanvas.height) * 0.65;
+  // font size based on canvas size
+  const fontSize = Math.min(bgCanvas.width, bgCanvas.height) * 0.55;
 
   bgCtx.font = `${fontSize}px sans-serif`;
   bgCtx.fillStyle = 'rgba(0,0,0,0.2)';
@@ -88,7 +92,7 @@ canvas.addEventListener('pointermove', (e) => {
 canvas.addEventListener('pointerup', () => (drawing = false));
 canvas.addEventListener('pointerleave', () => (drawing = false));
 
-/* ---------- touch events fallback for Safari (passive false!) ---------- */
+/* ---------- touch events fallback ---------- */
 function touchStart(e) {
   e.preventDefault();
   drawing = true;
@@ -111,8 +115,7 @@ function touchMove(e) {
   ctx.stroke();
 }
 
-function touchEnd(e) {
-  e.preventDefault();
+function touchEnd() {
   drawing = false;
 }
 
