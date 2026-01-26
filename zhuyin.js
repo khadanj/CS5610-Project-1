@@ -30,8 +30,8 @@ function resizeCanvas() {
   bgCanvas.width = width * dpr;
   bgCanvas.height = height * dpr;
 
-  ctx.scale(dpr, dpr);
-  bgCtx.scale(dpr, dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  bgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   // redraw symbol after resize
   showRandomSymbol();
@@ -47,13 +47,19 @@ function showRandomSymbol() {
   box.textContent = currentSymbol;
 
   bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-  bgCtx.font = '250px sans-serif';
+
+  const centerX = bgCanvas.width / 2;
+  const centerY = bgCanvas.height / 2;
+
+  // scale font size according to canvas size
+  const fontSize = Math.min(bgCanvas.width, bgCanvas.height) * 0.65;
+
+  bgCtx.font = `${fontSize}px sans-serif`;
   bgCtx.fillStyle = 'rgba(0,0,0,0.2)';
   bgCtx.textAlign = 'center';
   bgCtx.textBaseline = 'middle';
 
-  // note: use CSS size, not pixel size
-  bgCtx.fillText(currentSymbol, canvas.offsetWidth / 2, canvas.offsetHeight / 2);
+  bgCtx.fillText(currentSymbol, centerX, centerY);
 }
 
 btn.addEventListener('click', showRandomSymbol);
