@@ -15,30 +15,28 @@ const clearBtn = document.querySelector('.clear-btn');
 const ctx = canvas.getContext('2d');
 const bgCtx = bgCanvas.getContext('2d');
 
-let currentSymbol = '';
 let drawing = false;
-
-let dpr = window.devicePixelRatio || 1;
 
 /* ---------- Resize canvas properly ---------- */
 function resizeCanvas() {
-  dpr = window.devicePixelRatio || 1;
+  const dpr = window.devicePixelRatio || 1;
 
-  const width = canvas.offsetWidth;
-  const height = canvas.offsetHeight;
+  // get real display size
+  const rect = canvas.getBoundingClientRect();
+  const width = rect.width;
+  const height = rect.height;
 
-  // real pixel size
+  // set internal pixel size
   canvas.width = width * dpr;
   canvas.height = height * dpr;
 
   bgCanvas.width = width * dpr;
   bgCanvas.height = height * dpr;
 
-  // reset transform so it doesn't stack
+  // reset transform and scale
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   bgCtx.setTransform(1, 0, 0, 1, 0, 0);
 
-  // scale for DPR
   ctx.scale(dpr, dpr);
   bgCtx.scale(dpr, dpr);
 
@@ -51,17 +49,16 @@ resizeCanvas();
 /* ---------- symbol logic ---------- */
 function showRandomSymbol() {
   const randomIndex = Math.floor(Math.random() * symbols.length);
-  currentSymbol = symbols[randomIndex];
+  const currentSymbol = symbols[randomIndex];
   box.textContent = currentSymbol;
 
   bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
 
-  // use CSS size for drawing
-  const centerX = canvas.offsetWidth / 2;
-  const centerY = canvas.offsetHeight / 2;
+  const rect = canvas.getBoundingClientRect();
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
 
-  // font size based on CSS size
-  const fontSize = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.65;
+  const fontSize = Math.min(rect.width, rect.height) * 0.65;
 
   bgCtx.font = `${fontSize}px sans-serif`;
   bgCtx.fillStyle = 'rgba(0,0,0,0.2)';
@@ -101,10 +98,8 @@ canvas.addEventListener('pointerleave', () => (drawing = false));
 function touchStart(e) {
   e.preventDefault();
   drawing = true;
-
   const rect = canvas.getBoundingClientRect();
   const touch = e.touches[0];
-
   ctx.beginPath();
   ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
 }
@@ -112,10 +107,8 @@ function touchStart(e) {
 function touchMove(e) {
   e.preventDefault();
   if (!drawing) return;
-
   const rect = canvas.getBoundingClientRect();
   const touch = e.touches[0];
-
   ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
   ctx.stroke();
 }
