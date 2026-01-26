@@ -18,6 +18,28 @@ const bgCtx = bgCanvas.getContext('2d');
 let currentSymbol = '';
 let drawing = false;
 
+/* ---------- set canvas size properly (for iPhone) ---------- */
+function resizeCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+
+  const width = canvas.offsetWidth;
+  const height = canvas.offsetHeight;
+
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  bgCanvas.width = width * dpr;
+  bgCanvas.height = height * dpr;
+
+  ctx.scale(dpr, dpr);
+  bgCtx.scale(dpr, dpr);
+
+  // redraw symbol after resize
+  showRandomSymbol();
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
 /* ---------- symbol logic ---------- */
 function showRandomSymbol() {
   const randomIndex = Math.floor(Math.random() * symbols.length);
@@ -29,7 +51,9 @@ function showRandomSymbol() {
   bgCtx.fillStyle = 'rgba(0,0,0,0.2)';
   bgCtx.textAlign = 'center';
   bgCtx.textBaseline = 'middle';
-  bgCtx.fillText(currentSymbol, bgCanvas.width / 2, bgCanvas.height / 2);
+
+  // note: use CSS size, not pixel size
+  bgCtx.fillText(currentSymbol, canvas.offsetWidth / 2, canvas.offsetHeight / 2);
 }
 
 btn.addEventListener('click', showRandomSymbol);
@@ -40,35 +64,55 @@ ctx.strokeStyle = '#000';
 ctx.lineWidth = 4;
 ctx.lineCap = 'round';
 
-/* ---------- pointer events (key part) ---------- */
+/* ---------- pointer events ---------- */
 canvas.addEventListener('pointerdown', (e) => {
-  e.preventDefault(); // important for mobile
   drawing = true;
   ctx.beginPath();
-
   const rect = canvas.getBoundingClientRect();
   ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
 });
 
 canvas.addEventListener('pointermove', (e) => {
   if (!drawing) return;
-  e.preventDefault(); // important for mobile
-
   const rect = canvas.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-
-  ctx.lineTo(x, y);
+  ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
   ctx.stroke();
 });
 
-canvas.addEventListener('pointerup', () => {
-  drawing = false;
-});
+canvas.addEventListener('pointerup', () => (drawing = false));
+canvas.addEventListener('pointerleave', () => (drawing = false));
 
-canvas.addEventListener('pointerleave', () => {
+/* ---------- touch events fallback for Safari (passive false!) ---------- */
+function touchStart(e) {
+  e.preventDefault();
+  drawing = true;
+
+  const rect = canvas.getBoundingClientRect();
+  const touch = e.touches[0];
+
+  ctx.beginPath();
+  ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+}
+
+function touchMove(e) {
+  e.preventDefault();
+  if (!drawing) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const touch = e.touches[0];
+
+  ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+  ctx.stroke();
+}
+
+function touchEnd(e) {
+  e.preventDefault();
   drawing = false;
-});
+}
+
+canvas.addEventListener("touchstart", touchStart, { passive: false });
+canvas.addEventListener("touchmove", touchMove, { passive: false });
+canvas.addEventListener("touchend", touchEnd, { passive: false });
 
 /* ---------- clear ---------- */
 clearBtn.addEventListener('click', () => {
