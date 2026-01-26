@@ -17,26 +17,30 @@ const bgCtx = bgCanvas.getContext('2d');
 
 let drawing = false;
 
+// Store CSS size for drawing
+let cssWidth = 0;
+let cssHeight = 0;
+
 /* ---------- Resize canvas properly ---------- */
 function resizeCanvas() {
   const dpr = window.devicePixelRatio || 1;
 
   const rect = canvas.getBoundingClientRect();
-  const width = rect.width;
-  const height = rect.height;
+  cssWidth = rect.width;
+  cssHeight = rect.height;
 
-  // Set the actual pixel size
-  canvas.width = width * dpr;
-  canvas.height = height * dpr;
+  // Set internal pixel size
+  canvas.width = cssWidth * dpr;
+  canvas.height = cssHeight * dpr;
 
-  bgCanvas.width = width * dpr;
-  bgCanvas.height = height * dpr;
+  bgCanvas.width = cssWidth * dpr;
+  bgCanvas.height = cssHeight * dpr;
 
-  // Reset transform to avoid scaling stacking
+  // Reset transforms
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   bgCtx.setTransform(1, 0, 0, 1, 0, 0);
 
-  // Scale for high DPI
+  // Scale for DPR
   ctx.scale(dpr, dpr);
   bgCtx.scale(dpr, dpr);
 
@@ -52,25 +56,25 @@ function showRandomSymbol() {
   const currentSymbol = symbols[randomIndex];
   box.textContent = currentSymbol;
 
-  bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+  // Clear using CSS size
+  bgCtx.clearRect(0, 0, cssWidth, cssHeight);
 
-  const rect = canvas.getBoundingClientRect();
-  const centerX = rect.width / 2;
-  const centerY = rect.height / 2;
+  const centerX = cssWidth / 2;
+  const centerY = cssHeight / 2;
 
-  // Start with a large font size and reduce until it fits
-  let fontSize = Math.min(rect.width, rect.height) * 0.8;
+  // Find best font size so it never gets clipped
+  let fontSize = Math.min(cssWidth, cssHeight) * 0.75;
   bgCtx.textAlign = "center";
   bgCtx.textBaseline = "middle";
 
   while (fontSize > 0) {
     bgCtx.font = `${fontSize}px sans-serif`;
     const metrics = bgCtx.measureText(currentSymbol);
-
     const textWidth = metrics.width;
     const textHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
 
-    if (textWidth <= rect.width * 0.9 && textHeight <= rect.height * 0.9) {
+    // If it fits, stop shrinking
+    if (textWidth <= cssWidth * 0.92 && textHeight <= cssHeight * 0.92) {
       break;
     }
     fontSize -= 2;
@@ -110,10 +114,8 @@ canvas.addEventListener('pointerleave', () => (drawing = false));
 function touchStart(e) {
   e.preventDefault();
   drawing = true;
-
   const rect = canvas.getBoundingClientRect();
   const touch = e.touches[0];
-
   ctx.beginPath();
   ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
 }
@@ -121,10 +123,8 @@ function touchStart(e) {
 function touchMove(e) {
   e.preventDefault();
   if (!drawing) return;
-
   const rect = canvas.getBoundingClientRect();
   const touch = e.touches[0];
-
   ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
   ctx.stroke();
 }
@@ -139,5 +139,5 @@ canvas.addEventListener("touchend", touchEnd, { passive: false });
 
 /* ---------- clear ---------- */
 clearBtn.addEventListener('click', () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, cssWidth, cssHeight);
 });
