@@ -42,6 +42,7 @@ ctx.lineCap = 'round';
 
 /* ---------- pointer events (key part) ---------- */
 canvas.addEventListener('pointerdown', (e) => {
+  e.preventDefault(); // Important for mobile
   drawing = true;
   ctx.beginPath();
 
@@ -51,6 +52,7 @@ canvas.addEventListener('pointerdown', (e) => {
 
 canvas.addEventListener('pointermove', (e) => {
   if (!drawing) return;
+  e.preventDefault(); // Important for mobile
 
   const rect = canvas.getBoundingClientRect();
   const x = e.clientX - rect.left;
