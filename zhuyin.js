@@ -15,73 +15,28 @@ const clearBtn = document.querySelector('.clear-btn');
 const ctx = canvas.getContext('2d');
 const bgCtx = bgCanvas.getContext('2d');
 
+let currentSymbol = '';
 let drawing = false;
-
-// Store CSS size for drawing
-let cssWidth = 0;
-let cssHeight = 0;
-
-/* ---------- Resize canvas properly ---------- */
-function resizeCanvas() {
-  const dpr = window.devicePixelRatio || 1;
-
-  const rect = canvas.getBoundingClientRect();
-  cssWidth = rect.width;
-  cssHeight = rect.height;
-
-  // Set internal pixel size
-  canvas.width = cssWidth * dpr;
-  canvas.height = cssHeight * dpr;
-
-  bgCanvas.width = cssWidth * dpr;
-  bgCanvas.height = cssHeight * dpr;
-
-  // Reset transforms
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  bgCtx.setTransform(1, 0, 0, 1, 0, 0);
-
-  // Scale for DPR
-  ctx.scale(dpr, dpr);
-  bgCtx.scale(dpr, dpr);
-
-  showRandomSymbol();
-}
-
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
 
 /* ---------- symbol logic ---------- */
 function showRandomSymbol() {
   const randomIndex = Math.floor(Math.random() * symbols.length);
-  const currentSymbol = symbols[randomIndex];
+  currentSymbol = symbols[randomIndex];
   box.textContent = currentSymbol;
 
-  // Clear using CSS size
-  bgCtx.clearRect(0, 0, cssWidth, cssHeight);
+  // clear the background canvas
+  bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
 
-  const centerX = cssWidth / 2;
-  const centerY = cssHeight / 2;
-
-  // Find best font size so it never gets clipped
-  let fontSize = Math.min(cssWidth, cssHeight) * 0.75;
+  // center text
   bgCtx.textAlign = "center";
   bgCtx.textBaseline = "middle";
 
-  while (fontSize > 0) {
-    bgCtx.font = `${fontSize}px sans-serif`;
-    const metrics = bgCtx.measureText(currentSymbol);
-    const textWidth = metrics.width;
-    const textHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
-
-    // If it fits, stop shrinking
-    if (textWidth <= cssWidth * 0.92 && textHeight <= cssHeight * 0.92) {
-      break;
-    }
-    fontSize -= 2;
-  }
-
+  // set font size (avoid being cut off)
+  bgCtx.font = "180px sans-serif";
   bgCtx.fillStyle = "rgba(0,0,0,0.2)";
-  bgCtx.fillText(currentSymbol, centerX, centerY);
+
+  // draw text in the center
+  bgCtx.fillText(currentSymbol, bgCanvas.width / 2, bgCanvas.height / 2);
 }
 
 btn.addEventListener('click', showRandomSymbol);
@@ -92,52 +47,35 @@ ctx.strokeStyle = '#000';
 ctx.lineWidth = 4;
 ctx.lineCap = 'round';
 
-/* ---------- pointer events ---------- */
+/* ---------- pointer events (key part) ---------- */
 canvas.addEventListener('pointerdown', (e) => {
   drawing = true;
   ctx.beginPath();
+
   const rect = canvas.getBoundingClientRect();
   ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
 });
 
 canvas.addEventListener('pointermove', (e) => {
   if (!drawing) return;
+
   const rect = canvas.getBoundingClientRect();
-  ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  ctx.lineTo(x, y);
   ctx.stroke();
 });
 
-canvas.addEventListener('pointerup', () => (drawing = false));
-canvas.addEventListener('pointerleave', () => (drawing = false));
-
-/* ---------- touch events fallback ---------- */
-function touchStart(e) {
-  e.preventDefault();
-  drawing = true;
-  const rect = canvas.getBoundingClientRect();
-  const touch = e.touches[0];
-  ctx.beginPath();
-  ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
-}
-
-function touchMove(e) {
-  e.preventDefault();
-  if (!drawing) return;
-  const rect = canvas.getBoundingClientRect();
-  const touch = e.touches[0];
-  ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
-  ctx.stroke();
-}
-
-function touchEnd() {
+canvas.addEventListener('pointerup', () => {
   drawing = false;
-}
+});
 
-canvas.addEventListener("touchstart", touchStart, { passive: false });
-canvas.addEventListener("touchmove", touchMove, { passive: false });
-canvas.addEventListener("touchend", touchEnd, { passive: false });
+canvas.addEventListener('pointerleave', () => {
+  drawing = false;
+});
 
 /* ---------- clear ---------- */
 clearBtn.addEventListener('click', () => {
-  ctx.clearRect(0, 0, cssWidth, cssHeight);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
