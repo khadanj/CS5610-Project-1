@@ -18,26 +18,30 @@ const bgCtx = bgCanvas.getContext('2d');
 let currentSymbol = '';
 let drawing = false;
 
-/* ---------- Resize canvas to match CSS size + DPR ---------- */
+let dpr = window.devicePixelRatio || 1;
+
+/* ---------- Resize canvas properly ---------- */
 function resizeCanvas() {
-  const dpr = window.devicePixelRatio || 1;
+  dpr = window.devicePixelRatio || 1;
 
-  // CSS size
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
+  const width = canvas.offsetWidth;
+  const height = canvas.offsetHeight;
 
-  // set real pixel size
+  // real pixel size
   canvas.width = width * dpr;
   canvas.height = height * dpr;
 
   bgCanvas.width = width * dpr;
   bgCanvas.height = height * dpr;
 
-  // scale for high DPI
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  bgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  // reset transform so it doesn't stack
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  bgCtx.setTransform(1, 0, 0, 1, 0, 0);
 
-  // redraw symbol after resize
+  // scale for DPR
+  ctx.scale(dpr, dpr);
+  bgCtx.scale(dpr, dpr);
+
   showRandomSymbol();
 }
 
@@ -52,11 +56,12 @@ function showRandomSymbol() {
 
   bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
 
-  const centerX = bgCanvas.width / 2;
-  const centerY = bgCanvas.height / 2;
+  // use CSS size for drawing
+  const centerX = canvas.offsetWidth / 2;
+  const centerY = canvas.offsetHeight / 2;
 
-  // font size based on canvas size
-  const fontSize = Math.min(bgCanvas.width, bgCanvas.height) * 0.55;
+  // font size based on CSS size
+  const fontSize = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.65;
 
   bgCtx.font = `${fontSize}px sans-serif`;
   bgCtx.fillStyle = 'rgba(0,0,0,0.2)';
