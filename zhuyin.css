@@ -98,7 +98,7 @@ header .intro {
   position: relative;
   width: 90%;
   max-width: 450px;
-  aspect-ratio: 4 / 3; /* 讓畫布比例固定 */
+  aspect-ratio: 4 / 3; 
   margin: 0 auto;
 }
 
