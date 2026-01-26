@@ -104,15 +104,32 @@ header .intro {
   line-height: 1.6;
 }
 
+/* ====== Canvas area settings (works on both desktop and mobile) ====== */
 .canvas-wrapper {
   position: relative;
-  width: 400px;
+  width: 90%;
+  max-width: 400px;
   height: 300px;
+  margin: 0 auto;
 }
 
-.bg-board,
-.board {
+canvas {
   position: absolute;
   top: 0;
   left: 0;
+  touch-action: none; /* Required for touch devices */
+  -webkit-touch-callout: none; /* prevent long press menu */
+  -webkit-user-select: none;   /* prevent selection */
+  user-select: none;
 }
+
+.bg-board {
+  z-index: 0;
+  pointer-events: none; /* Prevents the background canvas from blocking touch */
+}
+
+.board {
+  z-index: 1; /* The drawing canvas is on top */
+}
+
+
