@@ -1,0 +1,122 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* navbar */
+.custom-navbar {
+  display: flex;
+  justify-content: center;
+  background-color: #655d51;
+  padding: 20px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li a {
+  margin: 0 30px;
+  font-size: 30px;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fdf9f9;
+}
+
+/* page style */
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #f1dfbe;
+  align-items: center;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bolder;
+}
+
+.page-content h1 {
+  font-weight: bolder;
+  color: brown;
+}
+
+.page-content h2,
+.page-content h3,
+.page-content h4,
+.page-content h5 {
+  font-weight: bolder;
+}
+
+/* card style */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* introduction */
+.introduction {
+  font-size: 25px;
+}
+
+.countdown-title {
+  color: brown;
+}
+
+.symbols,
+.writing {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  width: 80%;
+  margin: 20px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.symbol-box {
+  font-size: 80px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+header h1 {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+header .intro {
+  font-size: 28px;
+  line-height: 1.6;
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 400px;
+  height: 300px;
+}
+
+.bg-board,
+.board {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+canvas {
+  touch-action: none;
+}
