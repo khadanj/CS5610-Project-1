@@ -54,9 +54,10 @@ function showRandomSymbol() {
   currentSymbol = symbols[randomIndex];
   box.textContent = currentSymbol;
 
+  // clear the background canvas
   bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
 
-  // use CSS size for drawing
+  // center using CSS coordinates
   const centerX = canvas.offsetWidth / 2;
   const centerY = canvas.offsetHeight / 2;
 
